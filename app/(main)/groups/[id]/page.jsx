@@ -20,9 +20,12 @@ export default function GroupExpensesPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("expenses");
 
-  const { data, isLoading } = useConvexQuery(api.groups.getGroupExpenses, {
-    groupId: params.id,
-  });
+  const groupId = params.id;
+  const { data, isLoading } = useConvexQuery(
+    api.groups.getGroupExpenses,
+    { groupId: groupId },
+    { enabled: !!groupId }
+ );
 
   if (isLoading) {
     return (

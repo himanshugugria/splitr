@@ -270,11 +270,11 @@ export function ExpenseForm({ type = "individual", onSuccess }) {
               participants={participants}
               onParticipantsChange={setParticipants}
             />
-            {participants.length <= 1 && (
+            {/* {participants.length <= 1 && (
               <p className="text-xs text-amber-600">
                 Please add at least one other participant
               </p>
-            )}
+            )} */}
           </div>
         )}
 
@@ -352,12 +352,13 @@ export function ExpenseForm({ type = "individual", onSuccess }) {
       </div>
 
       <div className="flex justify-end">
-        <Button
-          type="submit"
-          disabled={isSubmitting || participants.length <= 1}
-        >
-          {isSubmitting ? "Creating..." : "Create Expense"}
-        </Button>
+      <Button
+        type="submit"
+        // The button should be enabled as long as it's not submitting
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Creating..." : "Create Expense"}
+      </Button>
       </div>
     </form>
   );

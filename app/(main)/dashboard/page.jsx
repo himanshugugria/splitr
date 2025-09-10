@@ -33,11 +33,15 @@ export default function Dashboard() {
   const { data: monthlySpending, isLoading: monthlySpendingLoading } =
     useConvexQuery(api.dashboard.getMonthlySpending);
 
+  const { data: personalExpenses, isLoading: personalExpensesLoading } =
+    useConvexQuery(api.expenses.getPersonalExpenses);
+
   const isLoading =
     balancesLoading ||
     groupsLoading ||
     totalSpentLoading ||
-    monthlySpendingLoading;
+    monthlySpendingLoading ||
+    personalExpensesLoading;
 
   return (
     <div className="container mx-auto py-6 space-y-6">
@@ -62,6 +66,30 @@ export default function Dashboard() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Personal Expenses
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+                  ${personalExpenses?.totalSpent.toFixed(2)}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  You have recorded {personalExpenses?.expenses.length} personal expenses
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button variant="link" asChild className="p-0">
+                  <Link href="/personal-expenses">
+                    View All
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
                   Total Balance
                 </CardTitle>
               </CardHeader>
@@ -83,8 +111,8 @@ export default function Dashboard() {
                   {balances?.totalBalance > 0
                     ? "You are owed money"
                     : balances?.totalBalance < 0
-                      ? "You owe money"
-                      : "All settled up!"}
+                    ? "You owe money"
+                    : "All settled up!"}
                 </p>
               </CardContent>
             </Card>
